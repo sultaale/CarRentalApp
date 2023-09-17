@@ -1,11 +1,6 @@
 package com.perz.carrentalapp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,18 +17,21 @@ import lombok.Setter;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-    @Column(name ="category_id")
-    private Long categoryid;
-    @Column(name ="brand_id")
-    private Long brandid;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     private Long price;
+
     @Column(name ="production_year")
     private Integer productionYear;
     private boolean automatic;
     private boolean availability;
     private boolean disabled;
-
-
 }
