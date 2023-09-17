@@ -1,11 +1,6 @@
 package com.perz.carrentalapp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-
 public class User {
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,6 +24,8 @@ public class User {
     private String email;
     private String phone;
     private String password;
+
+    @Enumerated
     @Column(name ="role_id")
-    private int roleid;
+    private Role role;
 }

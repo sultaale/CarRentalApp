@@ -1,11 +1,6 @@
 package com.perz.carrentalapp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,18 +20,21 @@ public class TransactionCompany {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name ="transaction_date")
     private LocalDate date;
+
+    @Enumerated
     @Column(name ="operation_type_id")
-    private Long operationTypeid;
+    private Operation operation;
+
     @Column(name ="transaction_amount")
     private Long amount;
 
-
     @Column(name ="company_account_id")
-    private Long companyAccountid;
-    @Column(name ="user_account_id")
-    private Long userAccountid;
+    private Long companyAccountId;
 
-
+    @ManyToOne
+    @JoinColumn(name = "user_account_id")
+    private Account account;
 }
