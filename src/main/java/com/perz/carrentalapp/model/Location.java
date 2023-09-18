@@ -32,6 +32,5 @@ public class Location {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @Column(name = "address")
     private String address;
 }
