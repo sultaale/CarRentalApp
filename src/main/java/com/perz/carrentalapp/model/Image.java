@@ -29,4 +29,6 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
+
+    private String link;
 }
