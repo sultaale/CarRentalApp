@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.dto;
+package com.perz.carrentalapp.model.dto;
 
 
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.perz.carrentalapp.auth.config;
 
-import com.perz.carrentalapp.auth.services.UsersDetailsService;
+import com.perz.carrentalapp.service.UsersDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

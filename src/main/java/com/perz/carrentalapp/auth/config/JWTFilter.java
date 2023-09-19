@@ -2,7 +2,7 @@ package com.perz.carrentalapp.auth.config;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.perz.carrentalapp.auth.security.JWTUtil;
-import com.perz.carrentalapp.auth.services.UsersDetailsService;
+import com.perz.carrentalapp.service.UsersDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

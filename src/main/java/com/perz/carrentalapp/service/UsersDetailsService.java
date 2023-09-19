@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.services;
+package com.perz.carrentalapp.service;
 
 
 import com.perz.carrentalapp.model.User;

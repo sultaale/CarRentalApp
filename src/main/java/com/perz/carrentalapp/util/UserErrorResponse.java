@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.util;
+package com.perz.carrentalapp.util;
 
 import lombok.Getter;
 import lombok.Setter;

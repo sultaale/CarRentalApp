@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.controllers;
+package com.perz.carrentalapp.controller;
 
 
 import org.springframework.http.HttpStatus;
