@@ -1,10 +1,10 @@
 package com.perz.carrentalapp.auth.services;
 
 
-import com.perz.carrentalapp.auth.model.User;
-import com.perz.carrentalapp.auth.repositories.UsersRepository;
+import com.perz.carrentalapp.model.User;
+import com.perz.carrentalapp.repositories.UserRepository;
 import com.perz.carrentalapp.auth.security.UsersDetails;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,22 +14,16 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class UsersDetailsService implements UserDetailsService {
-
-    private final UsersRepository usersRepository;
-
-    @Autowired
-    public UsersDetailsService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
-
+    private final UserRepository usersRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = usersRepository.findByEmail(email);
 
         if (user.isEmpty())
-            throw new UsernameNotFoundException("Пользователь не найден");
+            throw new UsernameNotFoundException("User is not found");
 
         return new UsersDetails(user.get());
     }

@@ -1,8 +1,8 @@
 package com.perz.carrentalapp.auth.util;
 
 
-import com.perz.carrentalapp.auth.model.User;
-import com.perz.carrentalapp.auth.services.UsersService;
+import com.perz.carrentalapp.model.User;
+import com.perz.carrentalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -14,10 +14,10 @@ import java.util.Optional;
 @Component
 public class UserValidator implements Validator {
 
-    private final UsersService usersService;
+    private final UserService usersService;
 
     @Autowired
-    public UserValidator(UsersService usersService) {
+    public UserValidator(UserService usersService) {
         this.usersService = usersService;
     }
 

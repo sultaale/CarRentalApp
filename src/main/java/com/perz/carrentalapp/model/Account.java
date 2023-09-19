@@ -1,7 +1,6 @@
 package com.perz.carrentalapp.model;
 
 
-import com.perz.carrentalapp.auth.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.model;
+package com.perz.carrentalapp.model;
 
 
 import com.perz.carrentalapp.model.Role;

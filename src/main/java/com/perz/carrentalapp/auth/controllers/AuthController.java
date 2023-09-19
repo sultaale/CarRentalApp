@@ -2,15 +2,15 @@ package com.perz.carrentalapp.auth.controllers;
 
 
 import com.perz.carrentalapp.auth.dto.AuthenticationDTO;
-import com.perz.carrentalapp.auth.dto.UserDTO;
-import com.perz.carrentalapp.auth.model.User;
+import com.perz.carrentalapp.auth.dto.UserRegistrationDTO;
+import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.auth.security.JWTUtil;
 import com.perz.carrentalapp.auth.services.RegistrationService;
 import com.perz.carrentalapp.auth.util.UserErrorResponse;
 import com.perz.carrentalapp.auth.util.UserNotCreatedException;
 import com.perz.carrentalapp.auth.util.UserValidator;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.perz.carrentalapp.util.Converter;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,30 +29,20 @@ import java.util.Map;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final RegistrationService registrationService;
     private final UserValidator userValidator;
     private final JWTUtil jwtUtil;
-    private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    public AuthController(RegistrationService registrationService, UserValidator userValidator, JWTUtil jwtUtil, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
-        this.registrationService = registrationService;
-        this.userValidator = userValidator;
-        this.jwtUtil = jwtUtil;
-        this.modelMapper = modelMapper;
-        this.authenticationManager = authenticationManager;
-    }
-
-
     @PostMapping("/registration")
-    public ResponseEntity<?> registration(@RequestBody  UserDTO userDTO,
+    public ResponseEntity<?> registration(@RequestBody UserRegistrationDTO userDTO,
                                           BindingResult bindingResult) {
 
-        User user = convertToUser(userDTO);
+        User user = Converter.convertFromUserDTOToUser(userDTO);
 
         userValidator.validate(user, bindingResult);
 
@@ -100,14 +90,10 @@ public class AuthController {
     @ExceptionHandler
     private ResponseEntity<UserErrorResponse> handleException(BadCredentialsException e) {
         UserErrorResponse response = new UserErrorResponse(
-                "Невеное имя пользователя или пароль",
+                "The username or password is incorrect",
                 System.currentTimeMillis()
         );
 
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
-
-    private User convertToUser(UserDTO userDTO) {
-        return this.modelMapper.map(userDTO, User.class);
     }
 }
