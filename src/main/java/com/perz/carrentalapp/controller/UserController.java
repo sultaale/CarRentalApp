@@ -3,7 +3,7 @@ package com.perz.carrentalapp.controller;
 import com.perz.carrentalapp.model.dto.AuthenticationDTO;
 import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
 import com.perz.carrentalapp.auth.security.JWTUtil;
-import com.perz.carrentalapp.model.dto.UserToUpdateDTO;
+import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import com.perz.carrentalapp.service.UserService;
 import com.perz.carrentalapp.util.UserErrorResponse;
 import com.perz.carrentalapp.util.UserNotCreatedException;
@@ -19,6 +19,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +40,8 @@ public class UserController {
     private final UserService userService;
     private final UserValidator userValidator;
     private final JWTUtil jwtUtil;
-
     private final AuthenticationManager authenticationManager;
+
     @PostMapping()
     public ResponseEntity<?> create(@RequestBody UserRegistrationDTO userDTO,
                                           BindingResult bindingResult) {
@@ -69,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getPosition(@PathVariable long id){
+    public ResponseEntity<UserDTO> getPosition(@PathVariable Long id){
 
         User user = userService.findOne(id);
 
@@ -83,7 +84,7 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity<HttpStatus> update(@RequestBody UserToUpdateDTO userToUpdateDTO) {
+    public ResponseEntity<HttpStatus> update(@RequestBody UserToBeUpdateDTO userToUpdateDTO) {
 
         User user = Converter.convertFromUserToUpdateDTOToUser(userToUpdateDTO);
 
@@ -92,12 +93,12 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<HttpStatus> delete(@PathVariable int id) {
-//
-//
-//        return ResponseEntity.ok(HttpStatus.OK);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        userService.delete(id);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {

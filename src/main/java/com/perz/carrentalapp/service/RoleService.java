@@ -19,7 +19,34 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Optional <Role> findByName(String name) {
+    public Optional<Role> findByName(String name) {
         return roleRepository.findByName(name);
+    }
+
+    @Transactional
+    public void create(Role role) {
+        roleRepository.save(role);
+    }
+
+    public Role findOne(Long id) {
+        return roleRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void update(Long id, Role role) {
+
+        Role roleToBeUpdate = roleRepository.findById(id).get();
+
+        roleToBeUpdate.setName(role.getName());
+
+        roleRepository.save(roleToBeUpdate);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+
+        Role roleToBeDelete = roleRepository.findById(id).get();
+
+        roleRepository.delete(roleToBeDelete);
     }
 }

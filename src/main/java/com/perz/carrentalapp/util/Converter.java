@@ -1,9 +1,13 @@
 package com.perz.carrentalapp.util;
 
+import com.perz.carrentalapp.model.Role;
 import com.perz.carrentalapp.model.User;
+import com.perz.carrentalapp.model.dto.RoleCreateDTO;
+import com.perz.carrentalapp.model.dto.RoleDTO;
+import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.UserDTO;
 import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
-import com.perz.carrentalapp.model.dto.UserToUpdateDTO;
+import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import org.modelmapper.ModelMapper;
 
 
@@ -15,11 +19,23 @@ public class Converter {
         return modelMapper.map(userDTO,User.class);
     }
 
+    public static User convertFromUserToUpdateDTOToUser(UserToBeUpdateDTO userToUpdateDTO) {
+        return modelMapper.map(userToUpdateDTO,User.class);
+    }
+
     public static UserDTO convertFromUserToUserDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    public static User convertFromUserToUpdateDTOToUser(UserToUpdateDTO userToUpdateDTO) {
-        return modelMapper.map(userToUpdateDTO,User.class);
+    public static Role convertFromRoleCreateDTOToRole(RoleCreateDTO roleCreateDTO) {
+        return modelMapper.map(roleCreateDTO,Role.class);
+    }
+
+    public static RoleDTO convertFromRoleToRoleDTO(Role role) {
+        return modelMapper.map(role, RoleDTO.class);
+    }
+
+    public static Role convertFromRoleToBeUpdateDTOToRole(RoleToBeUpdateDTO roleToBeUpdateDTO) {
+        return modelMapper.map(roleToBeUpdateDTO,Role.class);
     }
 }

@@ -29,7 +29,7 @@ public class UserService {
         usersRepository.save(user);
     }
 
-    public User findOne(long id) {
+    public User findOne(Long id) {
         return usersRepository.findById(id).orElse(null);
 
     }
@@ -42,9 +42,28 @@ public class UserService {
         return usersRepository.findByPhone(user.getPhone());
     }
 
-
+    @Transactional
     public void update(User user) {
 
+        User userToBeUpdate = usersRepository.findById(user.getId()).get();
+
+        userToBeUpdate.setFirstname(user.getFirstname());
+        userToBeUpdate.setLastname(user.getLastname());
+        userToBeUpdate.setEmail(user.getEmail());
+        userToBeUpdate.setPhone(user.getPhone());
+        userToBeUpdate.setPassword(user.getPassword());
+
+        usersRepository.save(userToBeUpdate);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+
+        User userToBeDelete = usersRepository.findById(id).get();
+
+        userToBeDelete.setDisabled(true);
+
+        usersRepository.save(userToBeDelete);
 
     }
 }
