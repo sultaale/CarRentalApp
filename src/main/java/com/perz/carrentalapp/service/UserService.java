@@ -43,9 +43,9 @@ public class UserService {
     }
 
     @Transactional
-    public void update(User user) {
+    public void update(Long id, User user) {
 
-        User userToBeUpdate = usersRepository.findById(user.getId()).get();
+        User userToBeUpdate = usersRepository.findById(id).get();
 
         userToBeUpdate.setFirstname(user.getFirstname());
         userToBeUpdate.setLastname(user.getLastname());
