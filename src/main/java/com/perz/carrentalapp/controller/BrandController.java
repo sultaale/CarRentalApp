@@ -1,13 +1,13 @@
 package com.perz.carrentalapp.controller;
 
-import com.perz.carrentalapp.model.Role;
-import com.perz.carrentalapp.model.dto.RoleCreateDTO;
-import com.perz.carrentalapp.model.dto.RoleDTO;
-import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
-import com.perz.carrentalapp.service.RoleService;
+import com.perz.carrentalapp.model.Brand;
+import com.perz.carrentalapp.model.dto.BrandCreateDTO;
+import com.perz.carrentalapp.model.dto.BrandDTO;
+import com.perz.carrentalapp.model.dto.BrandToBeUpdateDTO;
+import com.perz.carrentalapp.service.BrandService;
+import com.perz.carrentalapp.util.BrandErrorResponse;
+import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import com.perz.carrentalapp.util.Converter;
-import com.perz.carrentalapp.util.RoleErrorResponse;
-import com.perz.carrentalapp.util.exceptions.RoleNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,39 +23,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/roles")
-public class RoleController {
+@RequestMapping("/api/v1/brands")
+public class BrandController {
 
-    private final RoleService roleService;
+    private final BrandService brandService;
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> create(@RequestBody RoleCreateDTO roleCreateDTO) {
+    public ResponseEntity<HttpStatus> create(@RequestBody BrandCreateDTO brandCreateDTO) {
 
-        Role role = Converter.convertFromRoleCreateDTOToRole(roleCreateDTO);
+        Brand brand = Converter.convertFromBrandCreateDTOToBrand(brandCreateDTO);
 
-        roleService.create(role);
+        brandService.create(brand);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDTO> getPosition(@PathVariable Long id){
+    public ResponseEntity<BrandDTO> getPosition(@PathVariable Long id){
 
-        Role role = roleService.findOne(id);
+        Brand brand = brandService.findOne(id);
 
-        RoleDTO roleDTO = Converter.convertFromRoleToRoleDTO(role);
+        BrandDTO brandDTO = Converter.convertFromBrandToBrandDTO(brand);
 
-        return ResponseEntity.ok(roleDTO);
+        return ResponseEntity.ok(brandDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable Long id,
-                                             @RequestBody RoleToBeUpdateDTO roleToBeUpdateDTO) {
+                                             @RequestBody BrandToBeUpdateDTO brandToBeUpdateDTO) {
 
-        Role role = Converter.convertFromRoleToBeUpdateDTOToRole(roleToBeUpdateDTO);
+        Brand brand = Converter.convertFromBrandToBeUpdateDTOToBrand(brandToBeUpdateDTO);
 
-        roleService.update(id,role);
+        brandService.update(id,brand);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -63,14 +63,15 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 
-        roleService.delete(id);
+        brandService.delete(id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ExceptionHandler
-    private ResponseEntity<RoleErrorResponse> handleException(RoleNotFoundException e) {
-        RoleErrorResponse response = new RoleErrorResponse(
+    private ResponseEntity<BrandErrorResponse> handleException(BrandNotFoundException e) {
+
+        BrandErrorResponse response = new BrandErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
         );

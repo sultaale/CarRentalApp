@@ -1,7 +1,11 @@
 package com.perz.carrentalapp.util;
 
+import com.perz.carrentalapp.model.Brand;
 import com.perz.carrentalapp.model.Role;
 import com.perz.carrentalapp.model.User;
+import com.perz.carrentalapp.model.dto.BrandCreateDTO;
+import com.perz.carrentalapp.model.dto.BrandDTO;
+import com.perz.carrentalapp.model.dto.BrandToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.RoleCreateDTO;
 import com.perz.carrentalapp.model.dto.RoleDTO;
 import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
@@ -37,5 +41,17 @@ public class Converter {
 
     public static Role convertFromRoleToBeUpdateDTOToRole(RoleToBeUpdateDTO roleToBeUpdateDTO) {
         return modelMapper.map(roleToBeUpdateDTO,Role.class);
+    }
+
+    public static Brand convertFromBrandCreateDTOToBrand(BrandCreateDTO brandCreateDTO) {
+        return modelMapper.map(brandCreateDTO,Brand.class);
+    }
+
+    public static BrandDTO convertFromBrandToBrandDTO(Brand brand) {
+        return modelMapper.map(brand, BrandDTO.class);
+    }
+
+    public static Brand convertFromBrandToBeUpdateDTOToBrand(BrandToBeUpdateDTO brandToBeUpdateDTO) {
+        return modelMapper.map(brandToBeUpdateDTO, Brand.class);
     }
 }

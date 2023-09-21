@@ -5,8 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoleDTO {
+public class BrandDTO {
 
     private String name;
+
+    private String model;
 
 }

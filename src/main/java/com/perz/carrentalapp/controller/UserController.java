@@ -6,7 +6,8 @@ import com.perz.carrentalapp.auth.security.JWTUtil;
 import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import com.perz.carrentalapp.service.UserService;
 import com.perz.carrentalapp.util.UserErrorResponse;
-import com.perz.carrentalapp.util.UserNotCreatedException;
+import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
+import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import com.perz.carrentalapp.util.UserValidator;
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.model.dto.UserDTO;
@@ -131,5 +132,15 @@ public class UserController {
         );
 
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<UserErrorResponse> handleException(UserNotFoundException e) {
+        UserErrorResponse response = new UserErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

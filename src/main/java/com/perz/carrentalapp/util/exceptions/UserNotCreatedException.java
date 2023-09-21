@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.util;
+package com.perz.carrentalapp.util.exceptions;
 
 public class UserNotCreatedException extends RuntimeException{
 

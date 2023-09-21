@@ -4,6 +4,7 @@ package com.perz.carrentalapp.service;
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.repositories.RoleRepository;
 import com.perz.carrentalapp.repositories.UserRepository;
+import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,14 @@ public class UserService {
     }
 
     public User findOne(Long id) {
-        return usersRepository.findById(id).orElse(null);
 
+        User user = usersRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+
+        return user;
     }
 
     public Optional<User> existingEmail(User user) {
@@ -45,21 +52,28 @@ public class UserService {
     @Transactional
     public void update(Long id, User user) {
 
-        User userToBeUpdate = usersRepository.findById(id).get();
+        User userToBeUpdate = usersRepository.findById(id).orElse(null);
 
-        userToBeUpdate.setFirstname(user.getFirstname());
-        userToBeUpdate.setLastname(user.getLastname());
-        userToBeUpdate.setEmail(user.getEmail());
-        userToBeUpdate.setPhone(user.getPhone());
-        userToBeUpdate.setPassword(user.getPassword());
+        if (userToBeUpdate == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+            userToBeUpdate.setFirstname(user.getFirstname());
+            userToBeUpdate.setLastname(user.getLastname());
+            userToBeUpdate.setEmail(user.getEmail());
+            userToBeUpdate.setPhone(user.getPhone());
+            userToBeUpdate.setPassword(user.getPassword());
 
-        usersRepository.save(userToBeUpdate);
+            usersRepository.save(userToBeUpdate);
     }
 
     @Transactional
     public void delete(Long id) {
 
-        User userToBeDelete = usersRepository.findById(id).get();
+        User userToBeDelete = usersRepository.findById(id).orElse(null);
+
+        if (userToBeDelete == null) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
 
         userToBeDelete.setDisabled(true);
 
