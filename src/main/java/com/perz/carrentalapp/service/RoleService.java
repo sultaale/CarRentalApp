@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -53,5 +55,9 @@ public class RoleService {
         }
 
         roleRepository.delete(roleToBeDelete);
+    }
+
+    public Optional<Role> existingRole(Role role) {
+        return roleRepository.findByName(role.getName());
     }
 }

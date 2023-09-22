@@ -6,11 +6,16 @@ import com.perz.carrentalapp.model.dto.RoleDTO;
 import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
 import com.perz.carrentalapp.service.RoleService;
 import com.perz.carrentalapp.util.Converter;
-import com.perz.carrentalapp.util.RoleErrorResponse;
+import com.perz.carrentalapp.util.ErrorResponse;
+import com.perz.carrentalapp.util.exceptions.RoleNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.RoleNotFoundException;
+import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
+import com.perz.carrentalapp.util.validators.RoleValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,26 +26,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/roles")
 public class RoleController {
 
     private final RoleService roleService;
+    private final RoleValidator roleValidator;
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> create(@RequestBody RoleCreateDTO roleCreateDTO) {
+    public ResponseEntity<HttpStatus> create(@RequestBody RoleCreateDTO roleCreateDTO,
+                                             BindingResult bindingResult) {
 
         Role role = Converter.convertFromRoleCreateDTOToRole(roleCreateDTO);
 
+        roleValidator.validate(role, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+
+            StringBuilder errorMessage = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                errorMessage.append(error.getField())
+                        .append(" - ").append(error.getDefaultMessage())
+                        .append(";");
+            }
+            throw new RoleNotCreatedException(errorMessage.toString());
+        }
+
         roleService.create(role);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDTO> getPosition(@PathVariable Long id){
+    public ResponseEntity<RoleDTO> getPosition(@PathVariable Long id) {
 
         Role role = roleService.findOne(id);
 
@@ -55,7 +79,7 @@ public class RoleController {
 
         Role role = Converter.convertFromRoleToBeUpdateDTOToRole(roleToBeUpdateDTO);
 
-        roleService.update(id,role);
+        roleService.update(id, role);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -69,12 +93,22 @@ public class RoleController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<RoleErrorResponse> handleException(RoleNotFoundException e) {
-        RoleErrorResponse response = new RoleErrorResponse(
+    private ResponseEntity<ErrorResponse> handleException(RoleNotFoundException e) {
+        ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(RoleNotCreatedException e) {
+        ErrorResponse response = new ErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

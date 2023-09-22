@@ -5,10 +5,10 @@ import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
 import com.perz.carrentalapp.auth.security.JWTUtil;
 import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import com.perz.carrentalapp.service.UserService;
-import com.perz.carrentalapp.util.UserErrorResponse;
+import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
-import com.perz.carrentalapp.util.UserValidator;
+import com.perz.carrentalapp.util.validators.UserValidator;
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.model.dto.UserDTO;
 import com.perz.carrentalapp.util.Converter;
@@ -67,7 +67,7 @@ public class UserController {
         userService.create(user);
 
         String token = jwtUtil.generateToken(user.getEmail());
-        return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -115,8 +115,8 @@ public class UserController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> handleException(UserNotCreatedException e) {
-        UserErrorResponse response = new UserErrorResponse(
+    private ResponseEntity<ErrorResponse> handleException(UserNotCreatedException e) {
+        ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
         );
@@ -125,8 +125,8 @@ public class UserController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> handleException(BadCredentialsException e) {
-        UserErrorResponse response = new UserErrorResponse(
+    private ResponseEntity<ErrorResponse> handleException(BadCredentialsException e) {
+        ErrorResponse response = new ErrorResponse(
                 "The username or password is incorrect",
                 System.currentTimeMillis()
         );
@@ -135,8 +135,8 @@ public class UserController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> handleException(UserNotFoundException e) {
-        UserErrorResponse response = new UserErrorResponse(
+    private ResponseEntity<ErrorResponse> handleException(UserNotFoundException e) {
+        ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
         );

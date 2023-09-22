@@ -1,9 +1,9 @@
-package com.perz.carrentalapp.util;
+package com.perz.carrentalapp.util.validators;
 
 
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,15 +12,10 @@ import java.util.Optional;
 
 
 @Component
+@AllArgsConstructor
 public class UserValidator implements Validator {
 
     private final UserService usersService;
-
-    @Autowired
-    public UserValidator(UserService usersService) {
-        this.usersService = usersService;
-    }
-
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -37,11 +32,11 @@ public class UserValidator implements Validator {
         Optional<User> userPhone = usersService.existingPhone(newUser);
 
         if (userEmail.isPresent()) {
-            errors.rejectValue("email", "", "Пользователь с таким email уже существует");
+            errors.rejectValue("email", "", "User with this email already exist");
         }
 
         if (userPhone.isPresent()) {
-            errors.rejectValue("phone", "", "Пользователь с таким телефоном уже существует");
+            errors.rejectValue("phone", "", "User with this phone already exist");
         }
     }
 }

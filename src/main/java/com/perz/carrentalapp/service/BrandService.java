@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
@@ -57,5 +59,13 @@ public class BrandService {
         }
 
         brandRepository.delete(brandToBeDelete);
+    }
+
+    public Optional<Brand> existingName(Brand brand) {
+        return brandRepository.findByName(brand.getName());
+    }
+
+    public Optional<Brand> existingModel(Brand brand) {
+        return brandRepository.findByModel(brand.getModel());
     }
 }

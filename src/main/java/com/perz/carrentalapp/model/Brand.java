@@ -30,4 +30,5 @@ public class Brand {
 
     @Column(name = "model")
     private String model;
+
 }

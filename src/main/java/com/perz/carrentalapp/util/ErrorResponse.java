@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoleErrorResponse {
+public class ErrorResponse {
     private String message;
     private long timestamp;
 
-    public RoleErrorResponse(String message, long timestamp) {
+    public ErrorResponse(String message, long timestamp) {
         this.message = message;
         this.timestamp = timestamp;
     }
