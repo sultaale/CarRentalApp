@@ -1,7 +1,8 @@
 package com.perz.carrentalapp.model;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,26 +28,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name ="firstname")
     private String firstname;
 
-    @Column(name ="lastname")
     private String lastname;
 
-    @Column(name ="email")
     private String email;
-
-    @Column(name ="phone")
+  
     private String phone;
 
-    @Column(name ="password")
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name ="disabled")
     private Boolean disabled;
-
 }

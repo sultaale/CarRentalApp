@@ -36,13 +36,9 @@ public class Car {
     @Column(name ="production_year")
     private Integer productionYear;
 
-    @Column(name="automatic")
     private boolean automatic;
 
-    @Column(name="availability")
     private boolean availability;
 
-    @Column(name="disabled")
     private boolean disabled;
-
 }
