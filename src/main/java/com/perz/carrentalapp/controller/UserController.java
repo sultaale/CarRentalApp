@@ -5,6 +5,7 @@ import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
 import com.perz.carrentalapp.auth.security.JWTUtil;
 import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import com.perz.carrentalapp.service.UserService;
+import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
@@ -19,7 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,15 +53,9 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-            StringBuilder errorMessage = new StringBuilder();
+            String errorMessage = ErrorMessage.getMessage(bindingResult);
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new UserNotCreatedException(errorMessage.toString());
+            throw new UserNotCreatedException(errorMessage);
         }
 
         userService.create(user);
@@ -70,14 +64,12 @@ public class UserController {
         return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getPosition(@PathVariable Long id){
 
         User user = userService.findOne(id);
-
-        if(user==null){
-            return ResponseEntity.notFound().build();
-        }
 
         UserDTO userDTO = Converter.convertFromUserToUserDTO(user);
 

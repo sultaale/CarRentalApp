@@ -46,13 +46,14 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**", "/error").permitAll()
-                .anyRequest().permitAll());
+                .requestMatchers("/api/v1/users/**", "/api/v1/cars/**", "/error").permitAll()
+                .requestMatchers("api/v1/roles/**").hasRole("ADMIN")
+                .requestMatchers("api/v1/brands/**").hasRole("ADMIN"));
 
         http.formLogin(formLogin -> formLogin
-                .loginPage("/api/v1/auth/login")
+                .loginPage("/api/v1/users/login")
                 .loginProcessingUrl("/process_login")
-                .failureUrl("/api/v1/auth/login?error"));
+                .failureUrl("/api/v1/users/login?error"));
 
 
         http.sessionManagement(session -> session

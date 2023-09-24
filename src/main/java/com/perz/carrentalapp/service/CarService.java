@@ -4,6 +4,7 @@ import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.repositories.CarRepository;
 import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ public class CarService {
 
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void create(Car car) {
 
         carRepository.save(car);
@@ -34,6 +36,7 @@ public class CarService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void update(Long id, Car car) {
 
         Car carToBeUpdate = carRepository.findById(id).orElse(null);
@@ -50,6 +53,7 @@ public class CarService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(Long id) {
 
         Car carToBeDelete = carRepository.findById(id).orElse(null);

@@ -4,6 +4,7 @@ import com.perz.carrentalapp.model.Brand;
 import com.perz.carrentalapp.repositories.BrandRepository;
 import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

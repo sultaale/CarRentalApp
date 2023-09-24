@@ -6,6 +6,7 @@ import com.perz.carrentalapp.repositories.RoleRepository;
 import com.perz.carrentalapp.repositories.UserRepository;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ public class UserService {
         usersRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')|| hasRole('ROLE_USER')")
     public User findOne(Long id) {
 
         User user = usersRepository.findById(id).orElse(null);
@@ -50,6 +52,7 @@ public class UserService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void update(Long id, User user) {
 
         User userToBeUpdate = usersRepository.findById(id).orElse(null);
@@ -67,6 +70,7 @@ public class UserService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void delete(Long id) {
 
         User userToBeDelete = usersRepository.findById(id).orElse(null);

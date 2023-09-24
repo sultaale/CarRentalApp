@@ -5,11 +5,11 @@ import com.perz.carrentalapp.model.dto.BrandCreateDTO;
 import com.perz.carrentalapp.model.dto.BrandDTO;
 import com.perz.carrentalapp.model.dto.BrandToBeUpdateDTO;
 import com.perz.carrentalapp.service.BrandService;
+import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.BrandNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import com.perz.carrentalapp.util.Converter;
-import com.perz.carrentalapp.util.exceptions.RoleNotCreatedException;
 import com.perz.carrentalapp.util.validators.BrandValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,15 +47,9 @@ public class BrandController {
 
         if (bindingResult.hasErrors()) {
 
-            StringBuilder errorMessage = new StringBuilder();
+            String errorMessage = ErrorMessage.getMessage(bindingResult);
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new BrandNotCreatedException(errorMessage.toString());
+            throw new BrandNotCreatedException(errorMessage);
         }
 
         brandService.create(brand);

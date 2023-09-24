@@ -6,16 +6,15 @@ import com.perz.carrentalapp.model.dto.RoleDTO;
 import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
 import com.perz.carrentalapp.service.RoleService;
 import com.perz.carrentalapp.util.Converter;
+import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.RoleNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.RoleNotFoundException;
-import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
 import com.perz.carrentalapp.util.validators.RoleValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+
 
 @RestController
 @AllArgsConstructor
@@ -47,15 +46,9 @@ public class RoleController {
 
         if (bindingResult.hasErrors()) {
 
-            StringBuilder errorMessage = new StringBuilder();
+            String errorMessage = ErrorMessage.getMessage(bindingResult);
 
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new RoleNotCreatedException(errorMessage.toString());
+            throw new RoleNotCreatedException(errorMessage);
         }
 
         roleService.create(role);

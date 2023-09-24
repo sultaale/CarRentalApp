@@ -17,7 +17,7 @@ public class TestController {
 
 
     @GetMapping()
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')|| hasRole('ROLE_MANAGER')")
     public ResponseEntity<?> registration() {
 
         return new ResponseEntity<>(Map.of("Работает?", "Работает!"), HttpStatus.OK);
