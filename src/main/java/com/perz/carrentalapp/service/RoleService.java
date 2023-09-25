@@ -1,7 +1,9 @@
 package com.perz.carrentalapp.service;
 
+import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.model.Role;
 import com.perz.carrentalapp.repositories.RoleRepository;
+import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.RoleNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,7 @@ public class RoleService {
 
         Role role = roleRepository.findById(id).orElse(null);
 
-        if (role == null) {
-            throw new RoleNotFoundException("Role not found with id: " + id);
-        }
+        checkIfRoleIsNull(role);
 
         return role;
     }
@@ -37,9 +37,7 @@ public class RoleService {
 
         Role roleToBeUpdate = roleRepository.findById(id).orElse(null);
 
-        if (roleToBeUpdate == null) {
-            throw new RoleNotFoundException("Role not found with id: " + id);
-        }
+        checkIfRoleIsNull(roleToBeUpdate);
 
         roleToBeUpdate.setName(role.getName());
 
@@ -51,14 +49,17 @@ public class RoleService {
 
         Role roleToBeDelete = roleRepository.findById(id).orElse(null);
 
-        if (roleToBeDelete == null) {
-            throw new RoleNotFoundException("Role not found with id: " + id);
-        }
+        checkIfRoleIsNull(roleToBeDelete);
 
         roleRepository.delete(roleToBeDelete);
     }
 
     public Optional<Role> existingRole(Role role) {
         return roleRepository.findByName(role.getName());
+    }
+    private static void checkIfRoleIsNull(Role role) {
+        if(role == null) {
+            throw new RoleNotFoundException("There is no order with this Id:");
+        }
     }
 }

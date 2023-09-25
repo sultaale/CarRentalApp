@@ -1,8 +1,10 @@
 package com.perz.carrentalapp.service;
 
 import com.perz.carrentalapp.model.Brand;
+import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.repositories.BrandRepository;
 import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
+import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -28,9 +30,7 @@ public class BrandService {
 
         Brand brand = brandRepository.findById(id).orElse(null);
 
-        if (brand == null) {
-            throw new BrandNotFoundException("Brand not found with id: " + id);
-        }
+        checkIfBrandIsNull(brand);
 
         return brand;
     }
@@ -39,11 +39,7 @@ public class BrandService {
     public void update(Long id, Brand brand) {
 
         Brand brandToBeUpdate = brandRepository.findById(id).orElse(null);
-
-        if (brandToBeUpdate == null) {
-            throw new BrandNotFoundException("Brand not found with id: " + id);
-        }
-
+        checkIfBrandIsNull(brandToBeUpdate);
         brandToBeUpdate.setName(brand.getName());
         brandToBeUpdate.setModel(brand.getModel());
 
@@ -54,10 +50,7 @@ public class BrandService {
     public void delete(Long id) {
 
         Brand brandToBeDelete = brandRepository.findById(id).orElse(null);
-
-        if (brandToBeDelete == null) {
-            throw new BrandNotFoundException("Brand not found with id: " + id);
-        }
+        checkIfBrandIsNull(brandToBeDelete);
 
         brandRepository.delete(brandToBeDelete);
     }
@@ -68,5 +61,10 @@ public class BrandService {
 
     public Optional<Brand> existingModel(Brand brand) {
         return brandRepository.findByModel(brand.getModel());
+    }
+    private static void checkIfBrandIsNull(Brand brand) {
+        if(brand == null) {
+            throw new BrandNotFoundException("There is no brand with this Id");
+        }
     }
 }
