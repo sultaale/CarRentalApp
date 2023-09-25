@@ -1,9 +1,11 @@
 package com.perz.carrentalapp.service;
 
 
+import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.repositories.RoleRepository;
 import com.perz.carrentalapp.repositories.UserRepository;
+import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,9 +36,7 @@ public class UserService {
 
         User user = usersRepository.findById(id).orElse(null);
 
-        if (user == null) {
-            throw new UserNotFoundException("User not found with id: " + id);
-        }
+        checkIfUserIsNull(user);
 
         return user;
     }
@@ -54,9 +54,7 @@ public class UserService {
 
         User userToBeUpdate = usersRepository.findById(id).orElse(null);
 
-        if (userToBeUpdate == null) {
-            throw new UserNotFoundException("User not found with id: " + id);
-        }
+        checkIfUserIsNull(userToBeUpdate);
             userToBeUpdate.setFirstname(user.getFirstname());
             userToBeUpdate.setLastname(user.getLastname());
             userToBeUpdate.setEmail(user.getEmail());
@@ -71,13 +69,16 @@ public class UserService {
 
         User userToBeDelete = usersRepository.findById(id).orElse(null);
 
-        if (userToBeDelete == null) {
-            throw new UserNotFoundException("User not found with id: " + id);
-        }
+        checkIfUserIsNull(userToBeDelete);
 
         userToBeDelete.setDisabled(true);
 
         usersRepository.save(userToBeDelete);
 
+    }
+    private static void checkIfUserIsNull(User user) {
+        if(user == null) {
+            throw new UserNotFoundException("There is no order with this Id:");
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.perz.carrentalapp.service;
 
+import com.perz.carrentalapp.model.Brand;
 import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.repositories.CarRepository;
+import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,9 +28,7 @@ public class CarService {
 
         Car car = carRepository.findById(id).orElse(null);
 
-        if (car == null) {
-            throw new CarNotFoundException("Car not found with id: " + id);
-        }
+        checkIfCarIsNull(car);
 
         return car;
     }
@@ -38,9 +38,7 @@ public class CarService {
 
         Car carToBeUpdate = carRepository.findById(id).orElse(null);
 
-        if (carToBeUpdate == null) {
-            throw new CarNotFoundException("Car not found with id: " + id);
-        }
+        checkIfCarIsNull(carToBeUpdate);
         carToBeUpdate.setBrand(car.getBrand());
         carToBeUpdate.setPrice(car.getPrice());
         carToBeUpdate.setProductionYear(car.getProductionYear());
@@ -54,12 +52,15 @@ public class CarService {
 
         Car carToBeDelete = carRepository.findById(id).orElse(null);
 
-        if (carToBeDelete == null) {
-            throw new CarNotFoundException("Car not found with id: " + id);
-        }
+        checkIfCarIsNull(carToBeDelete);
 
         carToBeDelete.setDisabled(true);
 
         carRepository.save(carToBeDelete);
+    }
+    private static void checkIfCarIsNull(Car car) {
+        if(car == null) {
+            throw new CarNotFoundException("There is no car with this Id");
+        }
     }
 }
