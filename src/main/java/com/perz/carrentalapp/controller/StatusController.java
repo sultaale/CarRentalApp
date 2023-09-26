@@ -1,16 +1,17 @@
 package com.perz.carrentalapp.controller;
 
-import com.perz.carrentalapp.model.Brand;
-import com.perz.carrentalapp.model.dto.BrandCreateDTO;
-import com.perz.carrentalapp.model.dto.BrandDTO;
-import com.perz.carrentalapp.model.dto.BrandToBeUpdateDTO;
-import com.perz.carrentalapp.service.BrandService;
+
+import com.perz.carrentalapp.model.Status;
+import com.perz.carrentalapp.model.dto.StatusCreateDTO;
+import com.perz.carrentalapp.model.dto.StatusDTO;
+import com.perz.carrentalapp.model.dto.StatusToBeUpdateDTO;
+import com.perz.carrentalapp.service.StatusService;
+import com.perz.carrentalapp.util.Converter;
 import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
-import com.perz.carrentalapp.util.exceptions.BrandNotCreatedException;
-import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
-import com.perz.carrentalapp.util.Converter;
-import com.perz.carrentalapp.util.validators.BrandValidator;
+import com.perz.carrentalapp.util.exceptions.StatusNotCreatedException;
+import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
+import com.perz.carrentalapp.util.validators.StatusValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,52 +26,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/brands")
-public class BrandController {
+@RequestMapping("/api/v1/statuses")
+public class StatusController {
 
-    private final BrandService brandService;
-    private final BrandValidator brandValidator;
+    private final StatusService statusService;
+    private final StatusValidator statusValidator;
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> create(@RequestBody BrandCreateDTO brandCreateDTO,
+    public ResponseEntity<HttpStatus> create(@RequestBody StatusCreateDTO statusCreateDTO,
                                              BindingResult bindingResult) {
 
-        Brand brand = Converter.convertFromBrandCreateDTOToBrand(brandCreateDTO);
+        Status status = Converter.convertFromStatusCreateDTOToStatus(statusCreateDTO);
 
-        brandValidator.validate(brand, bindingResult);
+        statusValidator.validate(status, bindingResult);
 
         if (bindingResult.hasErrors()) {
 
             String errorMessage = ErrorMessage.getMessage(bindingResult);
 
-            throw new BrandNotCreatedException(errorMessage);
+            throw new StatusNotCreatedException(errorMessage);
         }
 
-        brandService.create(brand);
+        statusService.create(status);
 
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BrandDTO> getPosition(@PathVariable Long id){
+    public ResponseEntity<StatusDTO> getPosition(@PathVariable Long id) {
 
-        Brand brand = brandService.getById(id);
+        Status status = statusService.getById(id);
 
-        BrandDTO brandDTO = Converter.convertFromBrandToBrandDTO(brand);
+        StatusDTO statusDTO = Converter.convertFromStatusToStatusDTO(status);
 
-        return ResponseEntity.ok(brandDTO);
+        return ResponseEntity.ok(statusDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable Long id,
-                                             @RequestBody BrandToBeUpdateDTO brandToBeUpdateDTO) {
+                                             @RequestBody StatusToBeUpdateDTO statusToBeUpdateDTO) {
 
-        Brand brand = Converter.convertFromBrandToBeUpdateDTOToBrand(brandToBeUpdateDTO);
+        Status status = Converter.convertFromStatusToBeUpdateDTOToStatus(statusToBeUpdateDTO);
 
-        brandService.update(id,brand);
+        statusService.update(id, status);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -78,14 +80,13 @@ public class BrandController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 
-        brandService.delete(id);
+        statusService.delete(id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(BrandNotFoundException e) {
-
+    private ResponseEntity<ErrorResponse> handleException(StatusNotFoundException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
@@ -95,7 +96,7 @@ public class BrandController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(BrandNotCreatedException e) {
+    private ResponseEntity<ErrorResponse> handleException(StatusNotCreatedException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()

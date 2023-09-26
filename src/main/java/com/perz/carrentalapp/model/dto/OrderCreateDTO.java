@@ -1,39 +1,26 @@
-package com.perz.carrentalapp.model;
+package com.perz.carrentalapp.model.dto;
 
 
+import com.perz.carrentalapp.model.Car;
+import com.perz.carrentalapp.model.Location;
+import com.perz.carrentalapp.model.Status;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderCreateDTO {
 
-    @ManyToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
+    private Long  carId;
 
-    @Column(name ="users_id")
     private Long UserId;
 
     @ManyToOne
@@ -58,4 +45,5 @@ public class Order {
 
     @Column(name ="total_amount")
     private Long amount;
+
 }

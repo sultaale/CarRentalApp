@@ -1,13 +1,14 @@
 package com.perz.carrentalapp.controller;
 
-import com.perz.carrentalapp.model.Car;
-import com.perz.carrentalapp.model.dto.CarCreateDTO;
-import com.perz.carrentalapp.model.dto.CarDTO;
-import com.perz.carrentalapp.model.dto.CarToBeUpdateDTO;
-import com.perz.carrentalapp.service.CarService;
+
+import com.perz.carrentalapp.model.Location;
+import com.perz.carrentalapp.model.dto.LocationCreateDTO;
+import com.perz.carrentalapp.model.dto.LocationDTO;
+import com.perz.carrentalapp.model.dto.LocationToBeUpdateDTO;
+import com.perz.carrentalapp.service.LocationService;
 import com.perz.carrentalapp.util.Converter;
 import com.perz.carrentalapp.util.ErrorResponse;
-import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
+import com.perz.carrentalapp.util.exceptions.LocationNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,39 +24,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/cars")
-public class CarController {
+@RequestMapping("/api/v1/locations")
+public class LocationController {
 
-    private final CarService carService;
+    private final LocationService locationService;
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> create(@RequestBody CarCreateDTO carCreateDTO) {
+    public ResponseEntity<HttpStatus> create(@RequestBody LocationCreateDTO locationCreateDTO) {
 
-        Car car = Converter.convertFromCarCreateDTOToCar(carCreateDTO);
+        Location location = Converter.convertFromLocationCreateDTOToLocation(locationCreateDTO);
 
-        carService.create(car);
+        locationService.create(location);
 
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CarDTO> getPosition(@PathVariable Long id){
+    public ResponseEntity<LocationDTO> getPosition(@PathVariable Long id){
 
-        Car car = carService.getById(id);
+        Location location = locationService.getById(id);
 
-        CarDTO carDTO = Converter.convertFromCarToCarDTO(car);
+        LocationDTO locationDTO = Converter.convertFromLocationToLocationDTO(location);
 
-        return ResponseEntity.ok(carDTO);
+        return ResponseEntity.ok(locationDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable Long id,
-                                             @RequestBody CarToBeUpdateDTO carToBeUpdateDTO) {
+                                             @RequestBody LocationToBeUpdateDTO locationToBeUpdateDTO) {
 
-        Car car = Converter.convertFromCarToBeUpdateDTOToCar(carToBeUpdateDTO);
+        Location location = Converter.convertFromLocationToBeUpdateDTOToLocation(locationToBeUpdateDTO);
 
-        carService.update(id,car);
+        locationService.update(id,location);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -63,7 +64,7 @@ public class CarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 
-        carService.delete(id);
+        locationService.delete(id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -71,7 +72,7 @@ public class CarController {
 
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(CarNotFoundException e) {
+    private ResponseEntity<ErrorResponse> handleException(LocationNotFoundException e) {
 
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),

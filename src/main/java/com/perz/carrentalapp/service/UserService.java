@@ -1,11 +1,9 @@
 package com.perz.carrentalapp.service;
 
 
-import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.repositories.RoleRepository;
 import com.perz.carrentalapp.repositories.UserRepository;
-import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +32,7 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')|| hasRole('ROLE_USER')")
-    public User findOne(Long id) {
+    public User getById(Long id) {
 
         User user = usersRepository.findById(id).orElse(null);
 
@@ -58,6 +56,7 @@ public class UserService {
         User userToBeUpdate = usersRepository.findById(id).orElse(null);
 
         checkIfUserIsNull(userToBeUpdate);
+
             userToBeUpdate.setFirstname(user.getFirstname());
             userToBeUpdate.setLastname(user.getLastname());
             userToBeUpdate.setEmail(user.getEmail());
@@ -80,9 +79,9 @@ public class UserService {
         usersRepository.save(userToBeDelete);
 
     }
-    private static void checkIfUserIsNull(User user) {
+    private void checkIfUserIsNull(User user) {
         if(user == null) {
-            throw new UserNotFoundException("There is no order with this Id:");
+            throw new UserNotFoundException("There is no user with this Id");
         }
     }
 }

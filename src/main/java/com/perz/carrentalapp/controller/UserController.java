@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,10 +43,10 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody UserRegistrationDTO userDTO,
+    public ResponseEntity<?> create(@RequestBody UserRegistrationDTO userRegistrationDTO,
                                           BindingResult bindingResult) {
 
-        User user = Converter.convertFromUserRegistrationDTOToUser(userDTO);
+        User user = Converter.convertFromUserRegistrationDTOToUser(userRegistrationDTO);
 
         userValidator.validate(user, bindingResult);
 
@@ -69,7 +68,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getPosition(@PathVariable Long id){
 
-        User user = userService.findOne(id);
+        User user = userService.getById(id);
 
         UserDTO userDTO = Converter.convertFromUserToUserDTO(user);
 
@@ -96,6 +95,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
+
         UsernamePasswordAuthenticationToken authInputToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getEmail(),
                         authenticationDTO.getPassword());

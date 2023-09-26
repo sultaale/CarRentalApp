@@ -46,7 +46,7 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/users/**", "/api/v1/cars/**", "/error").permitAll()
+                .requestMatchers("/api/v1/users/**", "/api/v1/cars/**", "/api/v1/cities/**", "/api/v1/locations/**","/error").permitAll()
                 .requestMatchers("api/v1/roles/**").hasRole("ADMIN")
                 .requestMatchers("api/v1/brands/**").hasRole("ADMIN"));
 

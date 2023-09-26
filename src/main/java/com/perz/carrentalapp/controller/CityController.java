@@ -1,16 +1,16 @@
 package com.perz.carrentalapp.controller;
 
-import com.perz.carrentalapp.model.Brand;
-import com.perz.carrentalapp.model.dto.BrandCreateDTO;
-import com.perz.carrentalapp.model.dto.BrandDTO;
-import com.perz.carrentalapp.model.dto.BrandToBeUpdateDTO;
-import com.perz.carrentalapp.service.BrandService;
+import com.perz.carrentalapp.model.City;
+import com.perz.carrentalapp.model.dto.CityCreateDTO;
+import com.perz.carrentalapp.model.dto.CityDTO;
+import com.perz.carrentalapp.model.dto.CityToBeUpdateDTO;
+import com.perz.carrentalapp.service.CityService;
+import com.perz.carrentalapp.util.Converter;
 import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
-import com.perz.carrentalapp.util.exceptions.BrandNotCreatedException;
-import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
-import com.perz.carrentalapp.util.Converter;
-import com.perz.carrentalapp.util.validators.BrandValidator;
+import com.perz.carrentalapp.util.exceptions.CityNotCreatedException;
+import com.perz.carrentalapp.util.exceptions.CityNotFoundException;
+import com.perz.carrentalapp.util.validators.CityValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,52 +25,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/brands")
-public class BrandController {
+@RequestMapping("/api/v1/cities")
+public class CityController {
 
-    private final BrandService brandService;
-    private final BrandValidator brandValidator;
+    private final CityService cityService;
+    private final CityValidator cityValidator;
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> create(@RequestBody BrandCreateDTO brandCreateDTO,
+    public ResponseEntity<HttpStatus> create(@RequestBody CityCreateDTO cityCreateDTO,
                                              BindingResult bindingResult) {
 
-        Brand brand = Converter.convertFromBrandCreateDTOToBrand(brandCreateDTO);
+        City city = Converter.convertFromCityCreateDTOToCity(cityCreateDTO);
 
-        brandValidator.validate(brand, bindingResult);
+        cityValidator.validate(city, bindingResult);
 
         if (bindingResult.hasErrors()) {
 
             String errorMessage = ErrorMessage.getMessage(bindingResult);
 
-            throw new BrandNotCreatedException(errorMessage);
+            throw new CityNotCreatedException(errorMessage);
         }
 
-        brandService.create(brand);
+        cityService.create(city);
 
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BrandDTO> getPosition(@PathVariable Long id){
+    public ResponseEntity<CityDTO> getPosition(@PathVariable Long id) {
 
-        Brand brand = brandService.getById(id);
+        City city = cityService.getById(id);
 
-        BrandDTO brandDTO = Converter.convertFromBrandToBrandDTO(brand);
+        CityDTO cityDTO = Converter.convertFromCityToCityDTO(city);
 
-        return ResponseEntity.ok(brandDTO);
+        return ResponseEntity.ok(cityDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable Long id,
-                                             @RequestBody BrandToBeUpdateDTO brandToBeUpdateDTO) {
+                                             @RequestBody CityToBeUpdateDTO cityToBeUpdateDTO) {
 
-        Brand brand = Converter.convertFromBrandToBeUpdateDTOToBrand(brandToBeUpdateDTO);
+        City city = Converter.convertFromCityToBeUpdateDTOToCity(cityToBeUpdateDTO);
 
-        brandService.update(id,brand);
+        cityService.update(id, city);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -78,14 +79,13 @@ public class BrandController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 
-        brandService.delete(id);
+        cityService.delete(id);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(BrandNotFoundException e) {
-
+    private ResponseEntity<ErrorResponse> handleException(CityNotFoundException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
@@ -95,7 +95,7 @@ public class BrandController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(BrandNotCreatedException e) {
+    private ResponseEntity<ErrorResponse> handleException(CityNotCreatedException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()

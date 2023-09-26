@@ -23,7 +23,7 @@ public class UsersDetailsService implements UserDetailsService {
         Optional<User> user = usersRepository.findByEmail(email);
 
         if (user.isEmpty())
-            throw new UsernameNotFoundException("User is not found");
+            throw new UsernameNotFoundException("User with email "+email+" is not found");
 
         return new UsersDetails(user.get());
     }

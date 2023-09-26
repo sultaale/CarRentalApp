@@ -1,9 +1,7 @@
 package com.perz.carrentalapp.service;
 
-import com.perz.carrentalapp.model.Brand;
 import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.repositories.CarRepository;
-import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +24,7 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public Car findOne(Long id) {
+    public Car getById(Long id) {
 
         Car car = carRepository.findById(id).orElse(null);
 
@@ -62,7 +60,7 @@ public class CarService {
 
         carRepository.save(carToBeDelete);
     }
-    private static void checkIfCarIsNull(Car car) {
+    private void checkIfCarIsNull(Car car) {
         if(car == null) {
             throw new CarNotFoundException("There is no car with this Id");
         }

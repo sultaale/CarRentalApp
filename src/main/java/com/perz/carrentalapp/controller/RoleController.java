@@ -59,7 +59,7 @@ public class RoleController {
     @GetMapping("/{id}")
     public ResponseEntity<RoleDTO> getPosition(@PathVariable Long id) {
 
-        Role role = roleService.findOne(id);
+        Role role = roleService.getById(id);
 
         RoleDTO roleDTO = Converter.convertFromRoleToRoleDTO(role);
 
