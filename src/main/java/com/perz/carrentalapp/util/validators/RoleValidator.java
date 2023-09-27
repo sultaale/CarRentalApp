@@ -28,9 +28,9 @@ public class RoleValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Role newRole = (Role) o;
 
-        Optional<Role> role = roleService.existingRole(newRole);
+        Role role = roleService.getByName(newRole.getName());
 
-        if (role.isPresent()) {
+        if (role != null) {
             errors.rejectValue("name", "", "Role with this name already exist");
         }
     }

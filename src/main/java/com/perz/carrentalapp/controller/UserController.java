@@ -59,7 +59,8 @@ public class UserController {
 
         userService.create(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail());
+
         return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.CREATED);
     }
 
@@ -102,7 +103,9 @@ public class UserController {
 
         authenticationManager.authenticate(authInputToken);
 
-        String token = jwtUtil.generateToken(authenticationDTO.getEmail());
+        User user = userService.getByEmail(authenticationDTO.getEmail());
+
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail());
         return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.OK);
     }
 

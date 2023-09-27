@@ -52,12 +52,12 @@ public class BrandService {
         brandRepository.delete(brandToBeDelete);
     }
 
-    public Optional<Brand> existingName(Brand brand) {
-        return brandRepository.findByName(brand.getName());
+    public Brand getByName(String name) {
+        return brandRepository.findByName(name).orElse(null);
     }
 
-    public Optional<Brand> existingModel(Brand brand) {
-        return brandRepository.findByModel(brand.getModel());
+    public Brand getByModel(String model) {
+        return brandRepository.findByModel(model).orElse(null);
     }
 
     private void checkIfBrandIsNull(Brand brand) {

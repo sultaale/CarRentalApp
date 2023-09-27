@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.util.Optional;
-
 
 @Component
 @AllArgsConstructor
@@ -28,10 +26,10 @@ public class BrandValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Brand newBrand = (Brand) o;
 
-        Optional<Brand> brandName = brandService.existingName(newBrand);
-        Optional<Brand> brandModel = brandService.existingModel(newBrand);
+        Brand brandName = brandService.getByName(newBrand.getName());
+        Brand brandModel = brandService.getByModel(newBrand.getModel());
 
-        if (brandName.isPresent() && brandModel.isPresent()) {
+        if (brandName != null && brandModel != null) {
             errors.rejectValue("name", "", "Brand with this name and model already" +
                     " exist");
             errors.rejectValue("model", "", "Brand with this name and model already" +

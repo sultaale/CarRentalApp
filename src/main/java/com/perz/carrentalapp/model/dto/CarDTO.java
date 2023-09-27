@@ -1,6 +1,6 @@
 package com.perz.carrentalapp.model.dto;
 
-import com.perz.carrentalapp.model.Brand;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 public class CarDTO {
 
-    private BrandDTO brandDTO;
+
+    private BrandDTO brand;
 
     private Long price;
 

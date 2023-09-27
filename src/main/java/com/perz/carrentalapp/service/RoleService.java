@@ -52,8 +52,8 @@ public class RoleService {
         roleRepository.delete(roleToBeDelete);
     }
 
-    public Optional<Role> existingRole(Role role) {
-        return roleRepository.findByName(role.getName());
+    public Role getByName(String name) {
+        return roleRepository.findByName(name).orElse(null);
     }
     private void checkIfRoleIsNull(Role role) {
         if(role == null) {

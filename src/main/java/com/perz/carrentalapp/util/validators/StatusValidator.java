@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.util.Optional;
-
 
 @Component
 @AllArgsConstructor
@@ -29,9 +27,9 @@ public class StatusValidator implements Validator {
 
         Status newStatus = (Status) o;
 
-        Optional<Status> status = statusService.existingStatus(newStatus);
+        Status status = statusService.getByName(newStatus.getName());
 
-        if (status.isPresent()) {
+        if (status != null) {
             errors.rejectValue("name", "", "Status with this name already exist");
         }
     }

@@ -18,11 +18,12 @@ public class JWTUtil {
     @Value("${jwt_secret}")
     private String secret;
 
-    public String generateToken(String email) {
+    public String generateToken(Long id, String email) {
         Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(1440).toInstant());
 
         return JWT.create()
                 .withSubject("User details")
+                .withClaim("id", id)
                 .withClaim("email", email)
                 .withIssuedAt(new Date())
                 .withIssuer("blueTeam")
@@ -30,7 +31,7 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(secret));
     }
 
-    public String validateTokenAndRetrieveClaim(String token) throws JWTVerificationException {
+    public String validateTokenAndRetrieveEmailClaim(String token) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withSubject("User details")
                 .withIssuer("blueTeam")
@@ -39,4 +40,16 @@ public class JWTUtil {
         DecodedJWT jwt = verifier.verify(token);
         return jwt.getClaim("email").asString();
     }
+
+    public Long validateTokenAndRetrieveIdClaim(String token) throws JWTVerificationException {
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
+                .withSubject("User details")
+                .withIssuer("blueTeam")
+                .build();
+
+        DecodedJWT jwt = verifier.verify(token);
+        return jwt.getClaim("id").asLong();
+    }
+
+
 }

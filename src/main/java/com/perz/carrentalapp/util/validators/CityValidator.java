@@ -30,9 +30,9 @@ public class CityValidator implements Validator {
 
         City newCity = (City) o;
 
-        Optional<City> city = cityService.existingCity(newCity);
+        City city = cityService.getByName(newCity.getName());
 
-        if (city.isPresent()) {
+        if (city != null) {
             errors.rejectValue("name", "", "City with this name already exist");
         }
     }

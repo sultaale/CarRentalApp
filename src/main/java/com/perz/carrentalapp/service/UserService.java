@@ -18,7 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
-    private final UserRepository usersRepository;
+    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,32 +28,32 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleRepository.findByName("ROLE_USER").get());
         user.setDisabled(false);
-        usersRepository.save(user);
+        userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')|| hasRole('ROLE_USER')")
     public User getById(Long id) {
 
-        User user = usersRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id).orElse(null);
 
         checkIfUserIsNull(user);
 
         return user;
     }
 
-    public Optional<User> existingEmail(User user) {
-        return usersRepository.findByEmail(user.getEmail());
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
-    public Optional<User> existingPhone(User user) {
-        return usersRepository.findByPhone(user.getPhone());
+    public User getByPhone(String phone) {
+        return userRepository.findByPhone(phone).orElse(null);
     }
 
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void update(Long id, User user) {
 
-        User userToBeUpdate = usersRepository.findById(id).orElse(null);
+        User userToBeUpdate = userRepository.findById(id).orElse(null);
 
         checkIfUserIsNull(userToBeUpdate);
 
@@ -63,20 +63,20 @@ public class UserService {
             userToBeUpdate.setPhone(user.getPhone());
             userToBeUpdate.setPassword(user.getPassword());
 
-            usersRepository.save(userToBeUpdate);
+            userRepository.save(userToBeUpdate);
     }
 
     @Transactional
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void delete(Long id) {
 
-        User userToBeDelete = usersRepository.findById(id).orElse(null);
+        User userToBeDelete = userRepository.findById(id).orElse(null);
 
         checkIfUserIsNull(userToBeDelete);
 
         userToBeDelete.setDisabled(true);
 
-        usersRepository.save(userToBeDelete);
+        userRepository.save(userToBeDelete);
 
     }
     private void checkIfUserIsNull(User user) {
@@ -84,4 +84,7 @@ public class UserService {
             throw new UserNotFoundException("There is no user with this Id");
         }
     }
+
+
+
 }

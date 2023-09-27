@@ -1,6 +1,5 @@
 package com.perz.carrentalapp.service;
 
-import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.model.Location;
 import com.perz.carrentalapp.repositories.LocationRepository;
 import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
@@ -19,12 +18,12 @@ public class LocationService {
 
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void create(Location location) {
 
         locationRepository.save(location);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')|| hasRole('ROLE_USER')")
     public Location getById(Long id) {
 
         Location location = locationRepository.findById(id).orElse(null);
@@ -35,7 +34,7 @@ public class LocationService {
     }
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public void update(Long id, Location location) {
 
         Location locationToBeUpdate = locationRepository.findById(id).orElse(null);
@@ -49,7 +48,7 @@ public class LocationService {
     }
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(Long id) {
 
         Location locationToBeDelete = locationRepository.findById(id).orElse(null);

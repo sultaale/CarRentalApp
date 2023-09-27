@@ -79,7 +79,7 @@ public class Converter {
 
         CarDTO carDTO = modelMapper.map(car, CarDTO.class);
         BrandDTO brandDTO = modelMapper.map(car.getBrand(),BrandDTO.class);
-        carDTO.setBrandDTO(brandDTO);
+        carDTO.setBrand(brandDTO);
 
         return carDTO;
     }
@@ -120,7 +120,7 @@ public class Converter {
 
         LocationDTO locationDTO = modelMapper.map(location, LocationDTO.class);
         CityDTO cityDTO = modelMapper.map(location.getCity(),CityDTO.class);
-        locationDTO.setCityDTO(cityDTO);
+        locationDTO.setCity(cityDTO);
 
         return locationDTO;
     }

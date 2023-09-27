@@ -8,8 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -57,8 +55,8 @@ public class StatusService {
         statusRepository.delete(statusToBeDelete);
     }
 
-    public Optional<Status> existingStatus(Status status) {
-        return statusRepository.findByName(status.getName());
+    public Status getByName(String name) {
+        return statusRepository.findByName(name).orElse(null);
     }
     private void checkIfStatusIsNull(Status status) {
         if(status == null) {

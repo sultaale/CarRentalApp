@@ -17,7 +17,7 @@ public class CityService {
     private final CityRepository cityRepository;
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void create(City city) {
 
         cityRepository.save(city);
@@ -33,7 +33,7 @@ public class CityService {
     }
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void update(Long id, City status) {
 
         City cityToBeUpdate = cityRepository.findById(id).orElse(null);
@@ -46,7 +46,7 @@ public class CityService {
     }
 
     @Transactional
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(Long id) {
 
         City cityToBeDelete = cityRepository.findById(id).orElse(null);
@@ -56,9 +56,10 @@ public class CityService {
         cityRepository.delete(cityToBeDelete);
     }
 
-    public Optional<City> existingCity(City city) {
-        return cityRepository.findByName(city.getName());
+    public City getByName(String name) {
+        return cityRepository.findByName(name).orElse(null);
     }
+
     private void checkIfCityIsNull(City city) {
         if(city == null) {
             throw new CityNotFoundException("There is no city with this Id");
