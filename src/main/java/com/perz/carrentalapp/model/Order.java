@@ -33,8 +33,9 @@ public class Order {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @Column(name ="users_id")
-    private Long UserId;
+    @ManyToOne
+    @JoinColumn(name ="user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "pick_up_location_id")
@@ -58,4 +59,5 @@ public class Order {
 
     @Column(name ="total_amount")
     private Long amount;
+
 }

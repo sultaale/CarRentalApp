@@ -27,15 +27,15 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User newUser = (User) o;
 
-        User userEmail = usersService.getByEmail(newUser.getEmail());
+        Optional<User> userEmail = usersService.existingEmail(newUser);
 
-        User userPhone = usersService.getByPhone(newUser.getPhone());
+        Optional<User> userPhone = usersService.existingPhone(newUser);
 
-        if (userEmail != null) {
+        if (userEmail.isPresent()) {
             errors.rejectValue("email", "", "User with this email already exist");
         }
 
-        if (userPhone != null) {
+        if (userPhone.isPresent()) {
             errors.rejectValue("phone", "", "User with this phone already exist");
         }
     }

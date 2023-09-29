@@ -41,12 +41,12 @@ public class UserService {
         return user;
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+    public Optional<User>  existingEmail(User user) {
+        return userRepository.findByEmail(user.getEmail());
     }
 
-    public User getByPhone(String phone) {
-        return userRepository.findByPhone(phone).orElse(null);
+    public Optional<User> existingPhone(User user) {
+        return userRepository.findByPhone(user.getPhone());
     }
 
     @Transactional
@@ -79,6 +79,12 @@ public class UserService {
         userRepository.save(userToBeDelete);
 
     }
+
+    public Long getIdByEmail(String email) {
+        User user = userRepository.findByEmail(email).get();
+        return user.getId();
+    }
+
     private void checkIfUserIsNull(User user) {
         if(user == null) {
             throw new UserNotFoundException("There is no user with this Id");

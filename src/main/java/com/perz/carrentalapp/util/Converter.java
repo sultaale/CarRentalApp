@@ -4,6 +4,7 @@ import com.perz.carrentalapp.model.Brand;
 import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.model.City;
 import com.perz.carrentalapp.model.Location;
+import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.model.Role;
 import com.perz.carrentalapp.model.Status;
 import com.perz.carrentalapp.model.User;
@@ -19,6 +20,8 @@ import com.perz.carrentalapp.model.dto.CityToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.LocationCreateDTO;
 import com.perz.carrentalapp.model.dto.LocationDTO;
 import com.perz.carrentalapp.model.dto.LocationToBeUpdateDTO;
+import com.perz.carrentalapp.model.dto.OrderCreateDTO;
+import com.perz.carrentalapp.model.dto.OrderDTO;
 import com.perz.carrentalapp.model.dto.RoleCreateDTO;
 import com.perz.carrentalapp.model.dto.RoleDTO;
 import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
@@ -72,7 +75,9 @@ public class Converter {
     }
 
     public static Car convertFromCarCreateDTOToCar(CarCreateDTO carCreateDTO) {
-        return modelMapper.map(carCreateDTO,Car.class);
+        Car car = modelMapper.map(carCreateDTO,Car.class);
+        car.setId(null);
+        return car;
     }
 
     public static CarDTO convertFromCarToCarDTO(Car car) {
@@ -113,7 +118,9 @@ public class Converter {
     }
 
     public static Location convertFromLocationCreateDTOToLocation(LocationCreateDTO locationCreateDTO) {
-        return modelMapper.map(locationCreateDTO,Location.class);
+        Location location = modelMapper.map(locationCreateDTO,Location.class);
+        location.setId(null);
+        return location;
     }
 
     public static LocationDTO convertFromLocationToLocationDTO(Location location) {
@@ -127,5 +134,27 @@ public class Converter {
 
     public static Location convertFromLocationToBeUpdateDTOToLocation(LocationToBeUpdateDTO locationToBeUpdateDTO) {
         return modelMapper.map(locationToBeUpdateDTO,Location.class);
+    }
+
+    public static Order convertFromOrderCreateDTOToOrder(OrderCreateDTO orderCreateDTO) {
+        Order order = modelMapper.map(orderCreateDTO, Order.class);
+        order.setId(null);
+        return order;
+    }
+
+    public static OrderDTO convertFromOrderToOrderDTO(Order order) {
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+
+        UserDTO userDTO = modelMapper.map(order.getUser(),UserDTO.class);
+        CarDTO carDTO = modelMapper.map(order.getCar(),CarDTO.class);
+        LocationDTO locationDTO = modelMapper.map(order.getPickupLocation(),LocationDTO.class);
+        StatusDTO statusDTO = modelMapper.map(order.getStatus(),StatusDTO.class);
+
+        orderDTO.setUser(userDTO);
+        orderDTO.setCar(carDTO);
+        orderDTO.setPickupLocation(locationDTO);
+        orderDTO.setStatus(statusDTO);
+
+        return orderDTO;
     }
 }

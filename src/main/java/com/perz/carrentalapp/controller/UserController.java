@@ -103,9 +103,9 @@ public class UserController {
 
         authenticationManager.authenticate(authInputToken);
 
-        User user = userService.getByEmail(authenticationDTO.getEmail());
+        Long id = userService.getIdByEmail(authenticationDTO.getEmail());
 
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail());
+        String token = jwtUtil.generateToken(id, authenticationDTO.getEmail());
         return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.OK);
     }
 

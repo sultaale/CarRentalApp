@@ -33,4 +33,5 @@ public class Location {
     private City city;
 
     private String address;
+
 }

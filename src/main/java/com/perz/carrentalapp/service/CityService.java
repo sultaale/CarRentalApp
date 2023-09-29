@@ -56,8 +56,8 @@ public class CityService {
         cityRepository.delete(cityToBeDelete);
     }
 
-    public City getByName(String name) {
-        return cityRepository.findByName(name).orElse(null);
+    public Optional<City> existingName(City city) {
+        return cityRepository.findByName(city.getName());
     }
 
     private void checkIfCityIsNull(City city) {

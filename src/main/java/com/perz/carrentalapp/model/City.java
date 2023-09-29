@@ -34,4 +34,5 @@ public class City {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
     private List<Location> locations = new ArrayList<>();
+
 }

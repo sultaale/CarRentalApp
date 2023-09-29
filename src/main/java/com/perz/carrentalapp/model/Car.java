@@ -41,4 +41,5 @@ public class Car {
     private boolean availability;
 
     private boolean disabled;
+
 }

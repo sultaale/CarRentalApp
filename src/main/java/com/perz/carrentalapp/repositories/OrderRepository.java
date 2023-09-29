@@ -1,16 +1,17 @@
 package com.perz.carrentalapp.repositories;
 
-import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.model.Order;
-import com.perz.carrentalapp.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-//    List<Order> findAllByStatus(Status status);
-//
-//    List<Order> findAllByUserId(Long userId);
-//
-//    List<Order> findAllByCar(Car car);
+    @Query("SELECT o FROM  Order o INNER JOIN o.status s " +
+            "WHERE o.car.id = :carId AND (o.end >= :start AND o.start <= :end) " +
+            "AND (s.name <> 'STATUS_COMPLETE') ")
+    List<Order> findActiveOrdersByCarAndDate(@Param("carId")Long carId, @Param("start")LocalDate start,
+                                             @Param("end") LocalDate end);
 }

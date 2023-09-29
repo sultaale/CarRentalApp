@@ -2,6 +2,8 @@ package com.perz.carrentalapp.controller;
 
 
 import com.perz.carrentalapp.auth.security.JWTUtil;
+import com.perz.carrentalapp.model.Order;
+import com.perz.carrentalapp.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,6 +23,7 @@ import java.util.Map;
 public class TestController {
 
     private final JWTUtil jwtUtil;
+    private final OrderService orderService;
 
     @GetMapping()
 
@@ -29,6 +34,15 @@ public class TestController {
         Long id = jwtUtil.validateTokenAndRetrieveIdClaim(jwt);
 
         return new ResponseEntity<>(Map.of("User id: ", id), HttpStatus.OK);
+    }
+
+    @GetMapping("/check")
+
+    public ResponseEntity<HttpStatus> order() {
+
+
+
+        return ResponseEntity.ok().build();
     }
 
 

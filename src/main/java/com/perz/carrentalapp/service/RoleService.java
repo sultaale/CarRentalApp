@@ -52,9 +52,10 @@ public class RoleService {
         roleRepository.delete(roleToBeDelete);
     }
 
-    public Role getByName(String name) {
-        return roleRepository.findByName(name).orElse(null);
+    public Optional<Role> existingName(Role role) {
+        return roleRepository.findByName(role.getName());
     }
+
     private void checkIfRoleIsNull(Role role) {
         if(role == null) {
             throw new RoleNotFoundException("There is no role with this Id");

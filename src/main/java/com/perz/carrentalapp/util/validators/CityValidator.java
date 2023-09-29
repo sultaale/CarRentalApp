@@ -2,7 +2,6 @@ package com.perz.carrentalapp.util.validators;
 
 
 import com.perz.carrentalapp.model.City;
-import com.perz.carrentalapp.model.Role;
 import com.perz.carrentalapp.service.CityService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,9 +29,9 @@ public class CityValidator implements Validator {
 
         City newCity = (City) o;
 
-        City city = cityService.getByName(newCity.getName());
+        Optional<City> city = cityService.existingName(newCity);
 
-        if (city != null) {
+        if (city.isPresent()) {
             errors.rejectValue("name", "", "City with this name already exist");
         }
     }
