@@ -48,6 +48,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("api/v1/roles/**").hasRole("ADMIN")
                 .requestMatchers("api/v1/brands/**").hasRole("ADMIN")
+                .requestMatchers("api/v1/orders/**").authenticated()
                 .anyRequest().permitAll());
 
         http.formLogin(formLogin -> formLogin

@@ -38,8 +38,8 @@ public class CarService {
     public void update(Long id, Car car) {
 
         Car carToBeUpdate = carRepository.findById(id).orElse(null);
-
         checkIfCarIsNull(carToBeUpdate);
+
         carToBeUpdate.setBrand(car.getBrand());
         carToBeUpdate.setPrice(car.getPrice());
         carToBeUpdate.setProductionYear(car.getProductionYear());

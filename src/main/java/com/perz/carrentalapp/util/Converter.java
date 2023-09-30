@@ -22,6 +22,7 @@ import com.perz.carrentalapp.model.dto.LocationDTO;
 import com.perz.carrentalapp.model.dto.LocationToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.OrderCreateDTO;
 import com.perz.carrentalapp.model.dto.OrderDTO;
+import com.perz.carrentalapp.model.dto.OrderToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.RoleCreateDTO;
 import com.perz.carrentalapp.model.dto.RoleDTO;
 import com.perz.carrentalapp.model.dto.RoleToBeUpdateDTO;
@@ -156,5 +157,9 @@ public class Converter {
         orderDTO.setStatus(statusDTO);
 
         return orderDTO;
+    }
+
+    public static Order convertFromOrderToBeUpdateDTOToOrder(OrderToBeUpdateDTO orderToUpdateDTO) {
+        return modelMapper.map(orderToUpdateDTO,Order.class);
     }
 }

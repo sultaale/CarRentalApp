@@ -1,22 +1,28 @@
 package com.perz.carrentalapp.controller;
 
 import com.perz.carrentalapp.auth.security.JWTUtil;
+import com.perz.carrentalapp.model.Car;
 import com.perz.carrentalapp.model.Order;
+import com.perz.carrentalapp.model.dto.CarToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.OrderCreateDTO;
 import com.perz.carrentalapp.model.dto.OrderDTO;
+import com.perz.carrentalapp.model.dto.OrderToBeUpdateDTO;
 import com.perz.carrentalapp.service.OrderService;
 import com.perz.carrentalapp.service.UserService;
 import com.perz.carrentalapp.util.Converter;
 import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.OrderNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
+import com.perz.carrentalapp.util.exceptions.OrderNotUpdatedException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,38 +64,24 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<HttpStatus> update(@PathVariable Long id,
-//                                             @RequestBody UserToBeUpdateDTO userToUpdateDTO) {
-//
-//        User user = Converter.convertFromUserToUpdateDTOToUser(userToUpdateDTO);
-//
-//        userService.update(id,user);
-//
-//        return ResponseEntity.ok(HttpStatus.OK);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<HttpStatus> update(@PathVariable Long id,
+                                             @RequestBody OrderToBeUpdateDTO orderToBeUpdateDTO) {
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
-//        userService.delete(id);
-//
-//        return ResponseEntity.ok(HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/login")
-//    public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
-//
-//        UsernamePasswordAuthenticationToken authInputToken =
-//                new UsernamePasswordAuthenticationToken(authenticationDTO.getEmail(),
-//                        authenticationDTO.getPassword());
-//
-//        authenticationManager.authenticate(authInputToken);
-//
-//        Long id = userService.getIdByEmail(authenticationDTO.getEmail());
-//
-//        String token = jwtUtil.generateToken(id, authenticationDTO.getEmail());
-//        return new ResponseEntity<>(Map.of("jwt-token", token), HttpStatus.OK);
-//    }
+        Order order = Converter.convertFromOrderToBeUpdateDTOToOrder(orderToBeUpdateDTO);
+
+        orderService.update(id,order);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        orderService.delete(id);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 
     private Long getUserId(String authToken) {
         String jwt = authToken.substring(7);
@@ -115,5 +107,15 @@ public class OrderController {
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(OrderNotUpdatedException e) {
+        ErrorResponse response = new ErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
