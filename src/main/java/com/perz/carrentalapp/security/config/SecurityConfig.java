@@ -1,5 +1,6 @@
-package com.perz.carrentalapp.auth.config;
+package com.perz.carrentalapp.security.config;
 
+import com.perz.carrentalapp.security.jwt.JWTFilter;
 import com.perz.carrentalapp.service.UsersDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
 
         http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(usersDetailsService)

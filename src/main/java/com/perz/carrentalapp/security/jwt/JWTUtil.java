@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.security;
+package com.perz.carrentalapp.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -50,6 +50,4 @@ public class JWTUtil {
         DecodedJWT jwt = verifier.verify(token);
         return jwt.getClaim("id").asLong();
     }
-
-
 }

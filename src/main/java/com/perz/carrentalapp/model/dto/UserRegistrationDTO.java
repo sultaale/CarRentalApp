@@ -18,5 +18,4 @@ public class UserRegistrationDTO {
     private String phone;
 
     private String password;
-
 }

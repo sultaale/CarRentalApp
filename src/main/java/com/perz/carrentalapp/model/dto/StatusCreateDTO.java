@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class StatusCreateDTO {
 
-
     private String name;
 
 }

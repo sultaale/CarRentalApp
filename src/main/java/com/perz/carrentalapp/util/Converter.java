@@ -40,11 +40,11 @@ public class Converter {
     private final static ModelMapper modelMapper = new ModelMapper();
 
     public static User convertFromUserRegistrationDTOToUser(UserRegistrationDTO userDTO) {
-        return modelMapper.map(userDTO,User.class);
+        return modelMapper.map(userDTO, User.class);
     }
 
     public static User convertFromUserToUpdateDTOToUser(UserToBeUpdateDTO userToUpdateDTO) {
-        return modelMapper.map(userToUpdateDTO,User.class);
+        return modelMapper.map(userToUpdateDTO, User.class);
     }
 
     public static UserDTO convertFromUserToUserDTO(User user) {
@@ -52,7 +52,7 @@ public class Converter {
     }
 
     public static Role convertFromRoleCreateDTOToRole(RoleCreateDTO roleCreateDTO) {
-        return modelMapper.map(roleCreateDTO,Role.class);
+        return modelMapper.map(roleCreateDTO, Role.class);
     }
 
     public static RoleDTO convertFromRoleToRoleDTO(Role role) {
@@ -60,11 +60,11 @@ public class Converter {
     }
 
     public static Role convertFromRoleToBeUpdateDTOToRole(RoleToBeUpdateDTO roleToBeUpdateDTO) {
-        return modelMapper.map(roleToBeUpdateDTO,Role.class);
+        return modelMapper.map(roleToBeUpdateDTO, Role.class);
     }
 
     public static Brand convertFromBrandCreateDTOToBrand(BrandCreateDTO brandCreateDTO) {
-        return modelMapper.map(brandCreateDTO,Brand.class);
+        return modelMapper.map(brandCreateDTO, Brand.class);
     }
 
     public static BrandDTO convertFromBrandToBrandDTO(Brand brand) {
@@ -76,7 +76,7 @@ public class Converter {
     }
 
     public static Car convertFromCarCreateDTOToCar(CarCreateDTO carCreateDTO) {
-        Car car = modelMapper.map(carCreateDTO,Car.class);
+        Car car = modelMapper.map(carCreateDTO, Car.class);
         car.setId(null);
         return car;
     }
@@ -84,42 +84,42 @@ public class Converter {
     public static CarDTO convertFromCarToCarDTO(Car car) {
 
         CarDTO carDTO = modelMapper.map(car, CarDTO.class);
-        BrandDTO brandDTO = modelMapper.map(car.getBrand(),BrandDTO.class);
+        BrandDTO brandDTO = modelMapper.map(car.getBrand(), BrandDTO.class);
         carDTO.setBrand(brandDTO);
 
         return carDTO;
     }
 
     public static Car convertFromCarToBeUpdateDTOToCar(CarToBeUpdateDTO carToBeUpdateDTO) {
-        return modelMapper.map(carToBeUpdateDTO,Car.class);
+        return modelMapper.map(carToBeUpdateDTO, Car.class);
     }
 
     public static Status convertFromStatusCreateDTOToStatus(StatusCreateDTO statusCreateDTO) {
-        return modelMapper.map(statusCreateDTO,Status.class);
+        return modelMapper.map(statusCreateDTO, Status.class);
     }
 
     public static StatusDTO convertFromStatusToStatusDTO(Status status) {
-        return modelMapper.map(status,StatusDTO.class);
+        return modelMapper.map(status, StatusDTO.class);
     }
 
     public static Status convertFromStatusToBeUpdateDTOToStatus(StatusToBeUpdateDTO statusToBeUpdateDTO) {
-        return modelMapper.map(statusToBeUpdateDTO,Status.class);
+        return modelMapper.map(statusToBeUpdateDTO, Status.class);
     }
 
     public static City convertFromCityCreateDTOToCity(CityCreateDTO cityCreateDTO) {
-        return modelMapper.map(cityCreateDTO,City.class);
+        return modelMapper.map(cityCreateDTO, City.class);
     }
 
     public static CityDTO convertFromCityToCityDTO(City city) {
-        return modelMapper.map(city,CityDTO.class);
+        return modelMapper.map(city, CityDTO.class);
     }
 
     public static City convertFromCityToBeUpdateDTOToCity(CityToBeUpdateDTO cityToBeUpdateDTO) {
-        return modelMapper.map(cityToBeUpdateDTO,City.class);
+        return modelMapper.map(cityToBeUpdateDTO, City.class);
     }
 
     public static Location convertFromLocationCreateDTOToLocation(LocationCreateDTO locationCreateDTO) {
-        Location location = modelMapper.map(locationCreateDTO,Location.class);
+        Location location = modelMapper.map(locationCreateDTO, Location.class);
         location.setId(null);
         return location;
     }
@@ -127,14 +127,14 @@ public class Converter {
     public static LocationDTO convertFromLocationToLocationDTO(Location location) {
 
         LocationDTO locationDTO = modelMapper.map(location, LocationDTO.class);
-        CityDTO cityDTO = modelMapper.map(location.getCity(),CityDTO.class);
+        CityDTO cityDTO = modelMapper.map(location.getCity(), CityDTO.class);
         locationDTO.setCity(cityDTO);
 
         return locationDTO;
     }
 
     public static Location convertFromLocationToBeUpdateDTOToLocation(LocationToBeUpdateDTO locationToBeUpdateDTO) {
-        return modelMapper.map(locationToBeUpdateDTO,Location.class);
+        return modelMapper.map(locationToBeUpdateDTO, Location.class);
     }
 
     public static Order convertFromOrderCreateDTOToOrder(OrderCreateDTO orderCreateDTO) {
@@ -146,10 +146,10 @@ public class Converter {
     public static OrderDTO convertFromOrderToOrderDTO(Order order) {
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
 
-        UserDTO userDTO = modelMapper.map(order.getUser(),UserDTO.class);
-        CarDTO carDTO = modelMapper.map(order.getCar(),CarDTO.class);
-        LocationDTO locationDTO = modelMapper.map(order.getPickupLocation(),LocationDTO.class);
-        StatusDTO statusDTO = modelMapper.map(order.getStatus(),StatusDTO.class);
+        UserDTO userDTO = modelMapper.map(order.getUser(), UserDTO.class);
+        CarDTO carDTO = modelMapper.map(order.getCar(), CarDTO.class);
+        LocationDTO locationDTO = modelMapper.map(order.getPickupLocation(), LocationDTO.class);
+        StatusDTO statusDTO = modelMapper.map(order.getStatus(), StatusDTO.class);
 
         orderDTO.setUser(userDTO);
         orderDTO.setCar(carDTO);
@@ -160,6 +160,6 @@ public class Converter {
     }
 
     public static Order convertFromOrderToBeUpdateDTOToOrder(OrderToBeUpdateDTO orderToUpdateDTO) {
-        return modelMapper.map(orderToUpdateDTO,Order.class);
+        return modelMapper.map(orderToUpdateDTO, Order.class);
     }
 }

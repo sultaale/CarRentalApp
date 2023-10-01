@@ -1,7 +1,6 @@
 package com.perz.carrentalapp.model;
 
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,5 +33,4 @@ public class City {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
     private List<Location> locations = new ArrayList<>();
-
 }

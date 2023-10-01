@@ -12,5 +12,4 @@ public class LocationDTO {
     private CityDTO city;
 
     private String address;
-
 }

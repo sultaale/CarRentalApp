@@ -1,6 +1,5 @@
 package com.perz.carrentalapp.model.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,5 +22,4 @@ public class CarDTO {
     private boolean availability;
 
     private List<ImageDTO> images;
-
 }

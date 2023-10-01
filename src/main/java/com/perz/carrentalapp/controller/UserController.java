@@ -2,7 +2,7 @@ package com.perz.carrentalapp.controller;
 
 import com.perz.carrentalapp.model.dto.AuthenticationDTO;
 import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
-import com.perz.carrentalapp.auth.security.JWTUtil;
+import com.perz.carrentalapp.security.jwt.JWTUtil;
 import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
 import com.perz.carrentalapp.service.OrderService;
 import com.perz.carrentalapp.service.UserService;

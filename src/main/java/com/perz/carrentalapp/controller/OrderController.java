@@ -1,9 +1,7 @@
 package com.perz.carrentalapp.controller;
 
-import com.perz.carrentalapp.auth.security.JWTUtil;
-import com.perz.carrentalapp.model.Car;
+import com.perz.carrentalapp.security.jwt.JWTUtil;
 import com.perz.carrentalapp.model.Order;
-import com.perz.carrentalapp.model.dto.CarToBeUpdateDTO;
 import com.perz.carrentalapp.model.dto.OrderCreateDTO;
 import com.perz.carrentalapp.model.dto.OrderDTO;
 import com.perz.carrentalapp.model.dto.OrderToBeUpdateDTO;
@@ -14,7 +12,6 @@ import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.OrderNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.OrderNotUpdatedException;
-import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

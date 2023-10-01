@@ -1,8 +1,7 @@
 package com.perz.carrentalapp.controller;
 
 
-import com.perz.carrentalapp.auth.security.JWTUtil;
-import com.perz.carrentalapp.model.Order;
+import com.perz.carrentalapp.security.jwt.JWTUtil;
 import com.perz.carrentalapp.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 

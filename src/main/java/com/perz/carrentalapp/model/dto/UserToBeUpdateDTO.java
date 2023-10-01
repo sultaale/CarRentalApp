@@ -17,5 +17,4 @@ public class UserToBeUpdateDTO {
     private String phone;
 
     private String password;
-
 }

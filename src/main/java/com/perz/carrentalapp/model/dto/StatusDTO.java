@@ -10,5 +10,4 @@ public class StatusDTO {
     private Long id;
 
     private String name;
-
 }

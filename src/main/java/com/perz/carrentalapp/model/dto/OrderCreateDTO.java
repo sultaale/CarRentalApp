@@ -18,5 +18,4 @@ public class OrderCreateDTO {
     private LocalDate start;
 
     private LocalDate end;
-
 }

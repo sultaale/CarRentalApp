@@ -1,4 +1,4 @@
-package com.perz.carrentalapp.auth.security;
+package com.perz.carrentalapp.security.jwt;
 
 import com.perz.carrentalapp.model.User;
 import lombok.AllArgsConstructor;
@@ -13,6 +13,7 @@ import java.util.Collections;
 public class UsersDetails implements UserDetails {
 
     private final User user;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
@@ -47,7 +48,6 @@ public class UsersDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
     public User getUser() {
         return this.user;

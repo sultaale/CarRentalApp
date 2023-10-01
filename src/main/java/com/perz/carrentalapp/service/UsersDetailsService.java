@@ -3,7 +3,7 @@ package com.perz.carrentalapp.service;
 
 import com.perz.carrentalapp.model.User;
 import com.perz.carrentalapp.repositories.UserRepository;
-import com.perz.carrentalapp.auth.security.UsersDetails;
+import com.perz.carrentalapp.security.jwt.UsersDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

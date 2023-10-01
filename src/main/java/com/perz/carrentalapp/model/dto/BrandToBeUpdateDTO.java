@@ -1,6 +1,5 @@
 package com.perz.carrentalapp.model.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

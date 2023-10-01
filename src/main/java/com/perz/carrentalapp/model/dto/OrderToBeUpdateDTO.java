@@ -15,7 +15,4 @@ public class OrderToBeUpdateDTO {
     private LocalDate start;
 
     private LocalDate end;
-
-
-
 }
