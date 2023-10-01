@@ -4,9 +4,11 @@ import com.perz.carrentalapp.model.dto.AuthenticationDTO;
 import com.perz.carrentalapp.model.dto.UserRegistrationDTO;
 import com.perz.carrentalapp.auth.security.JWTUtil;
 import com.perz.carrentalapp.model.dto.UserToBeUpdateDTO;
+import com.perz.carrentalapp.service.OrderService;
 import com.perz.carrentalapp.service.UserService;
 import com.perz.carrentalapp.util.ErrorMessage;
 import com.perz.carrentalapp.util.ErrorResponse;
+import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
 import com.perz.carrentalapp.util.exceptions.UserNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.UserNotFoundException;
 import com.perz.carrentalapp.util.validators.UserValidator;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -38,6 +41,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final OrderService orderService;
     private final UserValidator userValidator;
     private final JWTUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
@@ -94,6 +98,16 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/orders/{orderId}/status")
+    public ResponseEntity<HttpStatus> updateOrderStatus(@PathVariable Long id,
+                                                        @PathVariable Long orderId,
+                                                        @RequestParam String status) {
+
+        orderService.updateOrderStatus(orderId,status);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
 
@@ -137,5 +151,15 @@ public class UserController {
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(StatusNotFoundException e) {
+        ErrorResponse response = new ErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

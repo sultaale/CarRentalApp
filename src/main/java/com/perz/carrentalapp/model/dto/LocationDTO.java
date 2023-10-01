@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class LocationDTO {
 
+    private Long id;
 
     private CityDTO city;
 

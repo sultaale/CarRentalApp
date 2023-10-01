@@ -8,6 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,11 @@ public class StatusService {
         checkIfStatusIsNull(status);
 
         return status;
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')")
+    public List<Status> getAll() {
+
+        return statusRepository.findAll();
     }
 
     @Transactional
@@ -65,4 +72,6 @@ public class StatusService {
             throw new StatusNotFoundException("There is no status with this Id");
         }
     }
+
+
 }

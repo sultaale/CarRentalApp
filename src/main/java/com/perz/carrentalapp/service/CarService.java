@@ -1,12 +1,16 @@
 package com.perz.carrentalapp.service;
 
 import com.perz.carrentalapp.model.Car;
+import com.perz.carrentalapp.model.Order;
 import com.perz.carrentalapp.repositories.CarRepository;
 import com.perz.carrentalapp.util.exceptions.CarNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -31,6 +35,16 @@ public class CarService {
         checkIfCarIsNull(car);
 
         return car;
+    }
+
+    public List<Car> getAll(){
+        return carRepository.findAll();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER') || hasRole('ROLE_USER')")
+    public List<Car> getAllAvailableForOrderCar(LocalDate start, LocalDate end){
+
+        return carRepository.findAvailableCarsForDate(start, end);
     }
 
     @Transactional

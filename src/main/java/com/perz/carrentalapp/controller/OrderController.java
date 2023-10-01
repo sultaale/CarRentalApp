@@ -14,6 +14,7 @@ import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.OrderNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.OrderNotUpdatedException;
+import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,6 @@ public class OrderController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
     private Long getUserId(String authToken) {
         String jwt = authToken.substring(7);
 
@@ -118,4 +118,5 @@ public class OrderController {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
 }

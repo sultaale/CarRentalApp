@@ -1,13 +1,15 @@
 package com.perz.carrentalapp.service;
 
 import com.perz.carrentalapp.model.Order;
+import com.perz.carrentalapp.model.Status;
 import com.perz.carrentalapp.repositories.CarRepository;
 import com.perz.carrentalapp.repositories.OrderRepository;
 import com.perz.carrentalapp.repositories.StatusRepository;
-import com.perz.carrentalapp.util.exceptions.OrderNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.OrderNotUpdatedException;
+import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +28,6 @@ public class OrderService {
 
     @Transactional
     public void create(Order order) {
-
-        checkAvailableCarByDates(order);
 
         order.setStatus(statusRepository.findByName("STATUS_CREATED").get());
         order.setCreationDate(LocalDate.now());
@@ -61,6 +61,24 @@ public class OrderService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_MANAGER')")
+    public void updateOrderStatus(Long orderId, String status){
+
+        Order order = orderRepository.findById(orderId).orElse(null);
+        checkIfOrderIsNull(order);
+
+        Status statusForUpdateOrder = statusRepository.findByName(status).orElse(null);
+        if(statusForUpdateOrder==null){
+            throw new StatusNotFoundException("Status with this name is not found");
+        }
+
+        order.setStatus(statusForUpdateOrder);
+
+        orderRepository.save(order);
+
+    }
+
+    @Transactional
     public void delete(Long id) {
 
         Order orderToBeDelete = orderRepository.findById(id).orElse(null);
@@ -73,6 +91,7 @@ public class OrderService {
         orderRepository.save(orderToBeDelete);
 
     }
+
     private void checkIfOrderIsNull(Order order) {
         if (order == null) {
             throw new OrderNotFoundException("There is no order with this Id");
@@ -82,21 +101,7 @@ public class OrderService {
     private Long getAmount(Order order) {
         Long rentalDuration = ChronoUnit.DAYS.between(order.getStart(), order.getEnd());
         Long carRentalPrice = carRepository.findById(order.getCar().getId()).get().getPrice();
-        Long amount = rentalDuration * carRentalPrice;
-        return amount;
-    }
-
-    private void checkAvailableCarByDates(Order order) {
-
-        Long carId = order.getCar().getId();
-        LocalDate start = order.getStart();
-        LocalDate end = order.getEnd();
-
-        List<Order> orders = orderRepository.findActiveOrdersByCarAndDate(carId, start, end);
-
-        if (!orders.isEmpty()) {
-            throw new OrderNotCreatedException("This car is not available for this dates");
-        }
+        return rentalDuration * carRentalPrice;
     }
 
     private void checkAvailableCarByDatesForUpdate(Order order) {

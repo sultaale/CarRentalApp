@@ -2,6 +2,7 @@ package com.perz.carrentalapp.controller;
 
 
 import com.perz.carrentalapp.model.Status;
+import com.perz.carrentalapp.model.dto.CarDTO;
 import com.perz.carrentalapp.model.dto.StatusCreateDTO;
 import com.perz.carrentalapp.model.dto.StatusDTO;
 import com.perz.carrentalapp.model.dto.StatusToBeUpdateDTO;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -64,6 +68,16 @@ public class StatusController {
         StatusDTO statusDTO = Converter.convertFromStatusToStatusDTO(status);
 
         return ResponseEntity.ok(statusDTO);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<StatusDTO>> getAll() {
+
+        List<StatusDTO> statuses = statusService.getAll().stream()
+                .map(Converter::convertFromStatusToStatusDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(statuses);
     }
 
     @PutMapping("/{id}")

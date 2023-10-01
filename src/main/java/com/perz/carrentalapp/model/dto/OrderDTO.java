@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Setter
 public class OrderDTO {
 
+    private Long id;
+
     private UserDTO user;
 
     private CarDTO car;
