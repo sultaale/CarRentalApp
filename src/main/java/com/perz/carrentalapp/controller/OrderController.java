@@ -12,6 +12,7 @@ import com.perz.carrentalapp.util.ErrorResponse;
 import com.perz.carrentalapp.util.exceptions.OrderNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.OrderNotFoundException;
 import com.perz.carrentalapp.util.exceptions.OrderNotUpdatedException;
+import com.perz.carrentalapp.util.exceptions.StatusNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -73,6 +75,15 @@ public class OrderController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<HttpStatus> updateStatus(@PathVariable Long id,
+                                                        @RequestParam String status) {
+
+        orderService.updateOrderStatus(id,status);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
         orderService.delete(id);
@@ -108,6 +119,16 @@ public class OrderController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(OrderNotUpdatedException e) {
+        ErrorResponse response = new ErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(StatusNotFoundException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()

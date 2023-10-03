@@ -98,16 +98,6 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/orders/{orderId}/status")
-    public ResponseEntity<HttpStatus> updateOrderStatus(@PathVariable Long id,
-                                                        @PathVariable Long orderId,
-                                                        @RequestParam String status) {
-
-        orderService.updateOrderStatus(orderId,status);
-
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
 
@@ -151,15 +141,5 @@ public class UserController {
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(StatusNotFoundException e) {
-        ErrorResponse response = new ErrorResponse(
-                e.getMessage(),
-                System.currentTimeMillis()
-        );
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
