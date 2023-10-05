@@ -11,7 +11,9 @@ import com.perz.carrentalapp.util.exceptions.BrandNotCreatedException;
 import com.perz.carrentalapp.util.exceptions.BrandNotFoundException;
 import com.perz.carrentalapp.util.Converter;
 import com.perz.carrentalapp.util.validators.BrandValidator;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,7 @@ public class BrandController {
 
 
     @PostMapping()
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<HttpStatus> create(@RequestBody BrandCreateDTO brandCreateDTO,
                                              BindingResult bindingResult) {
 
@@ -55,6 +58,7 @@ public class BrandController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<BrandDTO> getPosition(@PathVariable Long id){
 
         Brand brand = brandService.getById(id);
@@ -65,6 +69,7 @@ public class BrandController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<HttpStatus> update(@PathVariable Long id,
                                              @RequestBody BrandToBeUpdateDTO brandToBeUpdateDTO) {
 
@@ -76,6 +81,7 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 
         brandService.delete(id);
